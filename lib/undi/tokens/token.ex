@@ -15,7 +15,7 @@ defmodule Undi.Tokens.Token do
     token
     |> cast(attrs, [:country_issued_id, :token, :expiration])
     |> validate_required([:country_issued_id, :token, :expiration])
-    |> validate_length(:token, min: 1)
+    |> validate_length(:token, min: 12, max: 12)
   end
 
 end

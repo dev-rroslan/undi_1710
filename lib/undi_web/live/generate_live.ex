@@ -9,7 +9,7 @@ defmodule UndiWeb.GenerateLive do
     ~H"""
     <.header>
       Generate Token for login to survey
-      <:subtitle>From ID we will obtain your age and gender</:subtitle>
+      <:subtitle>We will probably obtain gender and age from MyKad</:subtitle>
     </.header>
 
     <div>
