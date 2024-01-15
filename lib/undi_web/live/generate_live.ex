@@ -16,7 +16,7 @@ defmodule UndiWeb.GenerateLive do
       <.simple_form for={@form} id="generate_link_form" phx-change="validate" phx-submit="save_token">
         <.input
           field={@form[:country_issued_id]}
-          value={@form.params.country_issued_id}
+          value={@form.params["country_issued_id"]}
           type="text"
           label="MyKad"
         />
@@ -32,7 +32,7 @@ defmodule UndiWeb.GenerateLive do
   def mount(_params, _session, socket) do
     {:ok,
       assign(socket,
-        form: to_form(%{country_issued_id: ""}) |> IO.inspect()
+        form: to_form(%{"country_issued_id" => ""})
       )}
   end
 
@@ -44,7 +44,7 @@ defmodule UndiWeb.GenerateLive do
           :noreply,
           socket
           |> put_flash(:info, "Record created successfully")
-          |> assign(:form, to_form(%{country_issued_id: country_issued_id}))
+          |> assign(:form, to_form(%{"country_issued_id" => country_issued_id}))
         }
       {:error, %Ecto.Changeset{} = changeset} ->
 
