@@ -50,22 +50,18 @@ defmodule Undi.Tokens do
 
   """
   def create_token(attrs \\ %{}) do
-    token = generate_token()
 
-    attrs
-    |> Map.put(:token, token)
-    |> Map.put(:expiration, DateTime.utc_now() |> DateTime.add(20, :minute))
+    attrs = Map.merge(attrs, %{"token" =>  generate_token(), "expiration" => Timex.shift(DateTime.utc_now(), hours: 1) })
 
-    try do
       %Token{}
       |> Token.changeset(attrs)
       |> Repo.insert()
-    catch
-      error ->
-        # Handle errors appropriately (e.g., log, return a specific error message)
-        "Error creating token: #{inspect(error)}"
-    end
+
   end
+
+
+
+
 
   @doc """
   Updates a token.
@@ -116,6 +112,8 @@ defmodule Undi.Tokens do
 
   def generate_token() do
     bytes = :crypto.strong_rand_bytes(32)
+
     Base.url_encode64(bytes)
+    |> binary_part(0, 32)
   end
 end

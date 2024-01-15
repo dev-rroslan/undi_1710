@@ -1,5 +1,5 @@
 defmodule UndiWeb.Router do
-  alias UndiWeb.GenerateLink
+
   use UndiWeb, :router
 
   import UndiWeb.UserAuth
