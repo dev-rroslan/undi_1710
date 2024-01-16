@@ -51,8 +51,8 @@ defmodule Undi.Tokens do
   """
   def create_token(attrs \\ %{}) do
 
-    attrs = Map.merge(attrs, %{"token" =>  generate_token(), "expiration" => Timex.shift(DateTime.utc_now(), hours: 1) })
-
+    attrs = Map.merge(attrs, %{"token" =>  generate_token(), "expiration" => Timex.local() |> Timex.add(Timex.Duration.from_hours(24))})
+    IO.inspect(attrs, label: "attrs")
       %Token{}
       |> Token.changeset(attrs)
       |> Repo.insert()

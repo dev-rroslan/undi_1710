@@ -19,5 +19,4 @@ defmodule Undi.Tokens.Token do
     |> unique_constraint([:country_issued_id])
 
   end
-
 end
