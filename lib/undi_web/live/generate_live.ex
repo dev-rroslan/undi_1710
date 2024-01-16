@@ -53,6 +53,11 @@ defmodule UndiWeb.GenerateLive do
 
 
   end
+  @impl true
+  def handle_event("validate", %{"country_issued_id" => country_issued_id},  socket) do
+
+    {:noreply, socket}
+  end
 
   @impl true
   def handle_event("validate", _, socket) do
