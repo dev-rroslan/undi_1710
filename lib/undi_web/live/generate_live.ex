@@ -1,7 +1,7 @@
 defmodule UndiWeb.GenerateLive do
   use UndiWeb, :live_view
 
-  # alias Undi.Tokens.Token
+   alias Undi.Tokens.Token
   alias Undi.Tokens
 
   @impl true
@@ -19,6 +19,7 @@ defmodule UndiWeb.GenerateLive do
           value={@form.params["country_issued_id"]}
           type="text"
           label="MyKad"
+
         />
 
         <:actions>
@@ -30,24 +31,25 @@ defmodule UndiWeb.GenerateLive do
   end
   @impl true
   def mount(_params, _session, socket) do
+    changeset = change(Token, %Token{})
     {:ok,
-      assign(socket,
-        form: to_form(%{"country_issued_id" => ""})
-      )}
+    socket
+    |> assign_form(changeset)
+    }
   end
 
   @impl true
-  def handle_event("save_token", %{"country_issued_id" => country_issued_id} = p, socket) do
-    case Tokens.create_token(p) do
-      {:ok, _token} ->
+  def handle_event("save_token",%{"token" => token} = _p, socket) do
+    case Tokens.create_token(token) do
+      {:ok, token} ->
+        changeset = change(Token, token)
         {
           :noreply,
           socket
           |> put_flash(:info, "Record created successfully")
-          |> assign(:form, to_form(%{"country_issued_id" => country_issued_id}))
+          |> assign_form(changeset)
         }
       {:error, %Ecto.Changeset{} = changeset} ->
-
         {:noreply, assign_form(socket, changeset)}
     end
 
@@ -55,15 +57,19 @@ defmodule UndiWeb.GenerateLive do
   end
 
   @impl true
-  def handle_event("validate", _, socket) do
-
-    {:noreply, socket}
+  def handle_event("validate", p, socket) do
+    changeset = change(Token, %Token{}, p["token"]) |> Map.put(:action, :validate)
+    {:noreply, socket
+    |> assign_form(changeset)
+    }
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset))
   end
 
-
+  defp change(model, data, attrs \\ %{}) do
+    model.changeset(data, attrs)
+  end
 
 end
