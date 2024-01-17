@@ -21,7 +21,7 @@ defmodule UndiWeb.Router do
   scope "/", UndiWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", LoginLive
   end
 
   # Other scopes may use custom stacks.
@@ -50,7 +50,7 @@ defmodule UndiWeb.Router do
 
   scope "/", UndiWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
-
+      live "/survey/:token", SurveyLive
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{UndiWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
@@ -69,7 +69,7 @@ defmodule UndiWeb.Router do
       on_mount: [{UndiWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-      live "/survey", SurveyLive, :fetch_token
+      live "/survey", SurveyLive
       live "/generate", GenerateLive
     end
   end

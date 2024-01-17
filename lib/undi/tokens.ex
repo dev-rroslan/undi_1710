@@ -35,7 +35,7 @@ defmodule Undi.Tokens do
       ** (Ecto.NoResultsError)
 
   """
-  def get_token!(id), do: Repo.get!(Token, id)
+  def get_token!(country_issued_id), do: Repo.get!(Token, country_issued_id)
 
   @doc """
   Creates a token.

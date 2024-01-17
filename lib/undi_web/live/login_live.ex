@@ -30,6 +30,7 @@ defmodule UndiWeb.LoginLive do
   def handle_event("submit", %{"country_issued_id" => country_issued_id}, socket) do
     case Tokens.get_token!(country_issued_id) do
       {:ok, token} ->
+        IO.inspect(token, label: "token")
         socket
         |> redirect(to: ~p"/survey/#{token}")
         |> put_flash(:info, "Login successful.")
