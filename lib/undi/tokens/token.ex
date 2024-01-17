@@ -17,6 +17,10 @@ defmodule Undi.Tokens.Token do
     |> validate_required([:country_issued_id, :token, :expiration])
     |> validate_length(:country_issued_id, is: 12)
     |> unique_constraint([:country_issued_id])
-
+    |> validate_format(
+      :country_issued_id,
+      Regex.compile!("^([0-9]{2})(0[1-9]|1[0-2])([1-3]{2})([01-6]{2})([0-9]{4})([0-9]{3})$")
+    )
   end
+
 end
