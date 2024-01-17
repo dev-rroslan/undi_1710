@@ -11,6 +11,7 @@ defmodule Undi.Tokens.Token do
   end
 
   @doc false
+
   def changeset(token, attrs) do
     token
     |> cast(attrs, [:country_issued_id, :token, :expiration])
@@ -19,8 +20,9 @@ defmodule Undi.Tokens.Token do
     |> unique_constraint([:country_issued_id])
     |> validate_format(
       :country_issued_id,
-      Regex.compile!("^([0-9]{2})(0[1-9]|1[0-2])([1-3]{2})([01-6]{2})([0-9]{4})([0-9]{3})$")
+      Regex.compile!(
+        "^([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])([0-6][1-9]|63)([0-9]{4})$"
+      )
     )
   end
-
 end

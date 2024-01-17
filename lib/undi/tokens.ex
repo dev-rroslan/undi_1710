@@ -35,7 +35,11 @@ defmodule Undi.Tokens do
       ** (Ecto.NoResultsError)
 
   """
-  def get_token!(country_issued_id), do: Repo.get!(Token, country_issued_id)
+  def get_token!(country_issued_id) do
+    country_issued_id
+    |> IO.inspect(country_issued_id, label: "country_issued_id")
+    |> Repo.get_by!(Token, country_issued_id: country_issued_id)
+  end
 
   @doc """
   Creates a token.
@@ -50,18 +54,18 @@ defmodule Undi.Tokens do
 
   """
   def create_token(attrs \\ %{}) do
+    attrs =
+      Map.merge(attrs, %{
+        "token" => generate_token(),
+        "expiration" => Timex.local() |> Timex.add(Timex.Duration.from_hours(24))
+      })
 
-    attrs = Map.merge(attrs, %{"token" =>  generate_token(), "expiration" => Timex.local() |> Timex.add(Timex.Duration.from_hours(24))})
     IO.inspect(attrs, label: "attrs")
-      %Token{}
-      |> Token.changeset(attrs)
-      |> Repo.insert()
 
+    %Token{}
+    |> Token.changeset(attrs)
+    |> Repo.insert()
   end
-
-
-
-
 
   @doc """
   Updates a token.
