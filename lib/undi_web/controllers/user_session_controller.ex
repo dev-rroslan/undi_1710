@@ -39,4 +39,13 @@ defmodule UndiWeb.UserSessionController do
     |> put_flash(:info, "Logged out successfully.")
     |> UserAuth.log_out_user()
   end
+
+  def survey_login(conn, %{"token" => token_param}) do
+    token_data = Undi.Tokens.get_token!(token_param["country_issued_id"])
+
+    conn
+    |> put_flash(:info, "Welcome to survey")
+    |> put_session(:country_issued_id, token_param["country_issued_id"])
+   |> redirect(to: ~p"/survey/#{token_data.token}")
+  end
 end

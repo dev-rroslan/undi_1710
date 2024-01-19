@@ -211,6 +211,20 @@ defmodule UndiWeb.UserAuth do
     end
   end
 
+  def require_survey_authentication(conn, _opts) do
+    if conn.assigns[:country_issued_id] || conn.private.plug_session["country_issued_id"] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must log in using your country issued id after generating token to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: ~p"/")
+      |> halt()
+    end
+  end
+
+
+
   defp put_token_in_session(conn, token) do
     conn
     |> put_session(:user_token, token)

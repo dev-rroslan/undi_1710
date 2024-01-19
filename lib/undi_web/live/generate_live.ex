@@ -13,7 +13,7 @@ defmodule UndiWeb.GenerateLive do
     </.header>
 
     <div>
-      <.simple_form for={@form} id="generate_link_form" phx-change="validate" phx-submit="save_token">
+      <.simple_form for={@form} id="generate_link_form" phx-change="validate" phx-submit="save_token" action={~p"/users/log_out/"} method="delete"  phx-trigger-action={@trigger_submit}>
         <.input
           field={@form[:country_issued_id]}
           value={@form.params["country_issued_id"]}
@@ -30,10 +30,13 @@ defmodule UndiWeb.GenerateLive do
     """
   end
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     changeset = change(Token, %Token{})
     {:ok,
     socket
+    |> assign(:user_token, session["user_token"])
+    |> assign(:live_socket_id, session["live_socket_id"])
+    |> assign(:trigger_submit, false)
     |> assign_form(changeset)
     }
   end
@@ -48,6 +51,8 @@ defmodule UndiWeb.GenerateLive do
           socket
           |> put_flash(:info, "Record created successfully")
           |> assign_form(changeset)
+          |> assign(:trigger_submit, true)
+
         }
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}

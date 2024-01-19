@@ -36,9 +36,7 @@ defmodule Undi.Tokens do
 
   """
   def get_token!(country_issued_id) do
-    country_issued_id
-    |> IO.inspect(country_issued_id, label: "country_issued_id")
-    |> Repo.get_by!(Token, country_issued_id: country_issued_id)
+    Repo.get_by(Token, country_issued_id: country_issued_id)
   end
 
   @doc """
@@ -60,7 +58,6 @@ defmodule Undi.Tokens do
         "expiration" => Timex.local() |> Timex.add(Timex.Duration.from_hours(24))
       })
 
-    IO.inspect(attrs, label: "attrs")
 
     %Token{}
     |> Token.changeset(attrs)

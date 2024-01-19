@@ -2,12 +2,16 @@ defmodule UndiWeb.LoginLive do
   use UndiWeb, :live_view
 
   alias Undi.Tokens
+  alias Undi.Tokens.Token
 
+  @impl true
   def render(assigns) do
     ~H"""
-    <.simple_form for={@form} id="country_issued_id_form" phx-submit="submit">
+    <.simple_form for={@form} id="country_issued_id_form" phx-change="validate" phx-submit="submit"      phx-trigger-action={@trigger_submit}
+        action={~p"/survey-login"}
+        method="get">
       <.input
-        field={@form["country_issued_id"]}
+        field={@form[:country_issued_id]}
         value={@form.params["country_issued_id"]}
         type="text"
         label="MyKad"
@@ -20,34 +24,52 @@ defmodule UndiWeb.LoginLive do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
-    {:ok,
-     assign(socket,
-       form: to_form(%{"country_issued_id" => ""})
-     )}
+    changeset = change(Token, %Token{})
+    {
+      :ok,
+      socket
+      |> assign_form(changeset)
+      |> assign(trigger_submit: false)
+
+    }
   end
 
-  def handle_event("submit", %{"country_issued_id" => country_issued_id}, socket) do
-    case Tokens.get_token!(country_issued_id) do
-      {:ok, token} ->
+  @impl true
+  def handle_event("submit", %{"token" => token_param}, socket) do
+
+    with %Token{token: token} when token not in [nil, ""]<- Tokens.get_token!(token_param["country_issued_id"]) do
+      {
+        :noreply,
         socket
-        |> redirect(to: ~p"/survey/#{token}")
         |> put_flash(:info, "Login successful.")
+        |> assign(trigger_submit: true)
+      }
+    else
+      _ ->
 
-        {:noreply, socket}
-
-      {:error, _reason} ->
-        socket
-        |> put_flash(:error, "Login failed.")
-        |> assign(:form, to_form(%{"country_issued_id" => country_issued_id}))
-
-        {:noreply, socket}
+        {:noreply, socket |> put_flash(:error, "Login failed! please make sure that country issued id is correct or the token is generated")}
     end
   end
 
-  # def to_form(data) do
-  # You would define the to_form/1 function here if it's not already defined.
-  # This function should create a form structure that can be used by the live view
-  # from the given data.
-  # end
+  @impl true
+  def handle_event("validate", p, socket) do
+    changeset = change(Token, %Token{}, p["token"])
+                |> Map.put(:action, :validate)
+    {
+      :noreply,
+      socket
+      |> assign_form(changeset)
+    }
+  end
+
+  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
+    assign(socket, :form, to_form(changeset))
+  end
+
+  defp change(model, data, attrs \\ %{}) do
+    model.changeset(data, attrs)
+  end
+
 end
