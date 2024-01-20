@@ -49,7 +49,7 @@ defmodule UndiWeb.LoginLive do
     else
       _ ->
 
-        {:noreply, socket |> put_flash(:error, "Login failed! please make sure that country issued id is correct or the token is generated")}
+        {:noreply, socket |> put_flash(:error, "Login failed! please make sure that MyKad is correct or the token is generated")}
     end
   end
 
