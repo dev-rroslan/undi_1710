@@ -15,7 +15,7 @@ defmodule Undi.Tokens.Token do
   def changeset(token, attrs) do
     token
     |> cast(attrs, [:country_issued_id, :token, :expiration])
-    |> validate_required([:country_issued_id, :token, :expiration])
+    |> validate_required([:country_issued_id,:expiration])
     |> validate_length(:country_issued_id, is: 12)
     |> unique_constraint([:country_issued_id])
     |> validate_format(

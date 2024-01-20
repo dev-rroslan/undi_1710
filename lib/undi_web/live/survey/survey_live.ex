@@ -3,6 +3,7 @@ defmodule UndiWeb.SurveyLive do
 
   alias Undi.Tokens
 
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -38,7 +39,7 @@ defmodule UndiWeb.SurveyLive do
 
   @impl true
   def handle_event("submit_survey", _p, socket) do
-    case Tokens.delete_token(socket.assigns.token_data) do
+    case Tokens.update_token(socket.assigns.token_data, %{"token" => nil}) do
       {:ok, _token} ->
         {
           :noreply,
@@ -48,7 +49,12 @@ defmodule UndiWeb.SurveyLive do
 
         }
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+        {
+          :noreply,
+          socket
+          |> put_flash(:error, "Something went wrong")
+          |> assign_form(changeset)
+        }
     end
 
 
