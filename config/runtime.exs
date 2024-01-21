@@ -1,5 +1,12 @@
 import Config
 
+config :undi, Undi.Mailer,
+  adapter: Swoosh.Adapter.Brevo,
+  api_key: System.fetch_env!("BREVO_API_KEY")
+
+config :swoosh, :api_client, Swoosh.ApiClient.Finch
+
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
@@ -114,9 +121,5 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
-config :undi, Undi.Mailer,
-  adapter: Swoosh.Adapter.Brevo,
-  api_key: System.fetch_env!("undi_brevo_api_key"),
 
-config :swoosh, :api_client, Swoosh.ApiClient.Finch
-end
+  end
