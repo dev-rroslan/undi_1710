@@ -115,8 +115,8 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 config :undi, Undi.Mailer,
-  adapter: Resend.Swoosh.Adapter,
-  api_key: System.fetch_env!("RESEND_API_KEY")
+  adapter: Swoosh.Adapter.Brevo,
+  api_key: System.fetch_env!("undi_brevo_api_key"),
 
 config :swoosh, :api_client, Swoosh.ApiClient.Finch
 end
