@@ -10,6 +10,10 @@ config :undi, UndiWeb.Endpoint, cache_static_manifest: "priv/static/cache_manife
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: Undi.Finch
 
+config :undi, Undi.Mailer, adapter: Resend.Swoosh.Adapter
+
+
+
 # Disable Swoosh Local Memory Storage
 config :swoosh, local: false
 
