@@ -120,6 +120,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/swoosh" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/cowboy_telemetry" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/phoenix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/tesla" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/resend" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bcrypt_elixir" level="project" />
@@ -202,5 +204,19 @@
     <orderEntry type="library" name="hpax" level="project" />
     <orderEntry type="library" name="mox" level="project" />
     <orderEntry type="library" name="hpack" level="project" />
+    <orderEntry type="library" name="resend" level="project" />
+    <orderEntry type="library" name="tesla" level="project" />
+    <orderEntry type="library" name="ibrowse" level="project" />
+    <orderEntry type="library" name="gun" level="project" />
+    <orderEntry type="library" name="poison" level="project" />
+    <orderEntry type="library" name="exjsx" level="project" />
+    <orderEntry type="library" name="msgpax" level="project" />
+    <orderEntry type="library" name="fuse" level="project" />
+    <orderEntry type="library" name="opentelemetry_process_propagator" level="project" />
+    <orderEntry type="library" name="mix_test_watch" level="project" />
+    <orderEntry type="library" name="inch_ex" level="project" />
+    <orderEntry type="library" name="httparrot" level="project" />
+    <orderEntry type="library" name="cowlib" level="project" />
+    <orderEntry type="library" name="ranch" level="project" />
   </component>
 </module>
