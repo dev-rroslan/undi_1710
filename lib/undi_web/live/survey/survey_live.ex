@@ -171,19 +171,18 @@ defmodule UndiWeb.SurveyLive do
   defp find_age(token_data) do
     date_of_birth_string = String.slice(token_data.country_issued_id, 0..5)
     year = String.slice(date_of_birth_string, 0, 2)
-           |> String.to_integer()
     current_date = Date.utc_today()
-    current_year = current_date.year
+    current_year = current_date.year()
+    current_year_last_2_digits = String.slice(Integer.to_string(current_year), 2..4)
     century =
-      if year <= current_year do
+      if year <= current_year_last_2_digits do
         "20"
       else
         "19"
       end
-
     formatted_date_string = century <> String.replace(date_of_birth_string, ~r/(.{2})(?=.)/, "\\1-")
     dob_date = Date.from_iso8601!(formatted_date_string)
-    age_in_days = Date.diff(current_date, dob_date)
+    age_in_days = Date.diff(current_date, dob_date) 
     _age_in_years = div(age_in_days, 365)
 
   end
