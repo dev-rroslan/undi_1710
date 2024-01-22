@@ -18,7 +18,7 @@ defmodule UndiWeb.LoginLive do
         required="true"
       />
       <:actions>
-        <.button phx-disable-with="Submitting...">Login to Survey</.button>
+        <.button phx-disable-with="Submitting...">Login ke Survey</.button>
       </:actions>
     </.simple_form>
     """

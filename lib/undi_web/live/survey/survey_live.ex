@@ -10,17 +10,17 @@ defmodule UndiWeb.SurveyLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <h1>Survey</h1>
-    <h2>Token: <%= @token_data.token %></h2>
+    <h1 class="text-center text-blue-800">Survey</h1>
+    <%!-- <h2>Token: <%= @token_data.token %></h2> --%>
     <h3>Country Issued Id: <%= @token_data.country_issued_id %></h3>
-    <h3>Gender: <%= @gender %></h3>
-    <h3>Age: <%= @age %></h3>
+    <h3>Jantina: <%= @gender %></h3>
+    <h3>Umur: <%= @age %></h3>
 
        <.simple_form for={@form} id="generate_link_form" phx-change="validate" phx-submit="submit_survey" style ="margin-top: -25px;" >
 
                 <fieldset  style = "height: 50px;">
     <p class="text-left text-sm">
-       Sokong Federal
+       Sokong Kerajaan Federal
       </p>
       <div class="grid gap-4 grid-cols-3 grid-rows-3">
             <.input field={@form[:sokong_fedaral]}
@@ -42,7 +42,7 @@ defmodule UndiWeb.SurveyLive do
 
              <fieldset   style = "height: 50px;">
     <p class="text-left text-sm">
-       Sokong Negeri
+       Sokong Kerajaan Negeri
       </p>
       <div class="grid gap-4 grid-cols-3 grid-rows-3">
             <.input field={@form[:sokong_negeri]}
@@ -64,7 +64,7 @@ defmodule UndiWeb.SurveyLive do
 
              <fieldset style = "height: 50px;">
     <p class="text-left text-sm">
-       Datar Padu
+       Daftar PADU
       </p>
       <div class="grid gap-4 grid-cols-3 grid-rows-3">
             <.input field={@form[:datar_padu]}
@@ -84,7 +84,7 @@ defmodule UndiWeb.SurveyLive do
     </div>
     </fieldset>
         <:actions>
-              <.button phx-disable-with="Submitting...">Submit</.button>
+              <.button phx-disable-with="Submitting...">Hantar</.button>
         </:actions>
       </.simple_form>
 
@@ -134,7 +134,7 @@ defmodule UndiWeb.SurveyLive do
       {
         :noreply,
         socket
-        |> put_flash(:info, "Form submitted and token deleted successfully")
+        |> put_flash(:info, "Form submitted successfully")
         |> redirect(to: ~p"/")
 
       }
@@ -182,7 +182,7 @@ defmodule UndiWeb.SurveyLive do
       end
     formatted_date_string = century <> String.replace(date_of_birth_string, ~r/(.{2})(?=.)/, "\\1-")
     dob_date = Date.from_iso8601!(formatted_date_string)
-    age_in_days = Date.diff(current_date, dob_date) 
+    age_in_days = Date.diff(current_date, dob_date)
     _age_in_years = div(age_in_days, 365)
 
   end
