@@ -26,14 +26,14 @@ defmodule UndiWeb.SurveyLive do
             <.input field={@form[:sokong_fedaral]}
               id="show_as_yes"
               type="radio"
-              label="Yes"
+              label="Ya"
               value="yes"
               checked={(@form[:sokong_fedaral].value == :yes) || (@form.params["sokong_fedaral"] == "yes")}
             />
         <.input field={@form[:sokong_fedaral]}
               id="show_as_no"
               type="radio"
-              label="No"
+              label="Tidak"
               value="no"
               checked={(@form[:sokong_fedaral].value == :no) || (@form.params["sokong_fedaral"] == "no")}
             />
@@ -48,14 +48,14 @@ defmodule UndiWeb.SurveyLive do
             <.input field={@form[:sokong_negeri]}
               id="show_as_yes"
               type="radio"
-              label="Yes"
+              label="Ya"
               value="yes"
               checked={(@form[:sokong_negeri].value == :yes) || (@form.params["sokong_negeri"] == "yes")}
             />
         <.input field={@form[:sokong_negeri]}
               id="show_as_no"
               type="radio"
-              label="No"
+              label="Tidak"
               value="no"
               checked={(@form[:sokong_negeri].value == :no) || (@form.params["sokong_negeri"] == "no")}
             />
@@ -70,14 +70,14 @@ defmodule UndiWeb.SurveyLive do
             <.input field={@form[:datar_padu]}
               id="show_as_yes"
               type="radio"
-              label="Yes"
+              label="Ya"
               value="yes"
               checked={(@form[:datar_padu].value == :yes) || (@form.params["datar_padu"] == "yes")}
             />
         <.input field={@form[:datar_padu]}
               id="show_as_no"
               type="radio"
-              label="No"
+              label="Tidak"
               value="no"
               checked={(@form[:datar_padu].value == :no) || (@form.params["datar_padu"] == "no")}
             />
