@@ -375,7 +375,7 @@ defmodule UndiWeb.CoreComponents do
         name={@name}
         value={@value}
         checked={@checked}
-        class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+        class="rounded border-blue-600 text-zinc-900 focus:ring-0"
         {@rest}
       />
       <.error :for={msg <- @errors}><%= msg %></.error>
