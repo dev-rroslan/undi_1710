@@ -10,11 +10,11 @@ defmodule UndiWeb.SurveyLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <h1>Survey</h1>
+    <h1 class="text-center text-blue-800">Survey</h1>
     <%!-- <h2>Token: <%= @token_data.token %></h2> --%>
     <h3>Country Issued Id: <%= @token_data.country_issued_id %></h3>
-    <h3>Gender: <%= @gender %></h3>
-    <h3>Age: <%= @age %></h3>
+    <h3>Jantina: <%= @gender %></h3>
+    <h3>Umur: <%= @age %></h3>
 
        <.simple_form for={@form} id="generate_link_form" phx-change="validate" phx-submit="submit_survey" style ="margin-top: -25px;" >
 
@@ -84,7 +84,7 @@ defmodule UndiWeb.SurveyLive do
     </div>
     </fieldset>
         <:actions>
-              <.button phx-disable-with="Submitting...">Submit</.button>
+              <.button phx-disable-with="Submitting...">Hantar</.button>
         </:actions>
       </.simple_form>
 
