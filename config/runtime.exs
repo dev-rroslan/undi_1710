@@ -6,7 +6,6 @@ config :undi, Undi.Mailer,
 
 config :swoosh, :api_client, Swoosh.ApiClient.Finch
 
-
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
@@ -61,7 +60,7 @@ if config_env() == :prod do
   config :undi, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :undi, UndiWeb.Endpoint,
-    url: [host: "undi.online", port: 443, scheme: "https"],
+    url: [host: host, port: 443, scheme: "https"],
     check_origin: [
       "https://undi.online",
       "https://undi.fly.dev"
@@ -74,9 +73,6 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
-
-
-
     secret_key_base: secret_key_base
 
   # ## SSL Support
@@ -128,5 +124,4 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
-
-  end
+end
