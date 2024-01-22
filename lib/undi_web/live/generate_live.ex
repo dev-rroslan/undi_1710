@@ -8,8 +8,8 @@ defmodule UndiWeb.GenerateLive do
   def render(assigns) do
     ~H"""
     <.header>
-      Generate Token for login to survey
-      <:subtitle>We will probably obtain gender and age from MyKad</:subtitle>
+      Token untuk login survey
+      <:subtitle>Kami hanya guna jantina dan umur dari MyKad</:subtitle>
     </.header>
 
     <div>
