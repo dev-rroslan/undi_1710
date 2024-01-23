@@ -22,8 +22,30 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+// assets/js/app.js
+let Hooks = {}
+Hooks.Chart = {
+    mounted() {
+        const chartConfig = JSON.parse(this.el.dataset.config)
+console.log(chartConfig)
+        const seriesData = JSON.parse(this.el.dataset.series)
+        console.log(seriesData)
+        const options = {
+            chart: Object.assign({
+                background: 'transparent',
+            }, chartConfig),
+            series: seriesData
+        }
+        const chart = new ApexCharts(this.el, options);
+
+        chart.render();
+    }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks})
+
+
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
