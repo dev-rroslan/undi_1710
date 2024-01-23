@@ -12,7 +12,7 @@ defmodule UndiWeb.SurveyLive do
     ~H"""
     <h1 class="text-center text-blue-800">Survey</h1>
     <%!-- <h2>Token: <%= @token_data.token %></h2> --%>
-    <h3>Country Issued Id: <%= @token_data.country_issued_id %></h3>
+    <%!-- <h3>Country Issued Id: <%= @token_data.country_issued_id %></h3> --%>
     <h3>Jantina: <%= @gender %></h3>
     <h3>Umur: <%= @age %></h3>
 

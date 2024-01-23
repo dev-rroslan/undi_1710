@@ -23,7 +23,7 @@ defmodule UndiWeb.DashboardLive do
     dataset={@data_set_for_age}
     />
 
-  <p class="text-center text-sm">
+    <p class="text-center text-sm">
        Gender
       </p>
     <.line_graph
