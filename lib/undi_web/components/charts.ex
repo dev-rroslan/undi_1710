@@ -6,7 +6,7 @@ defmodule UndiWeb.Components.Charts do
   attr :id, :string, required: true
   attr :type, :string, default: "bar"
   attr :width, :integer, default: nil
-  attr :height, :integer, default: nil
+  attr :height, :integer, default: 500
   attr :animated, :boolean, default: false
   attr :toolbar, :boolean, default: false
   attr :dataset, :list, default: []
@@ -17,7 +17,7 @@ defmodule UndiWeb.Components.Charts do
     ~H"""
     <div
       id={@id}
-      class="[&>div]:mx-auto"
+      class="container mx-auto p-4 overflow-hidden sm:p-6 lg:p-8"
       phx-hook="Chart"
       data-config={Jason.encode!(trim %{
         height: @height,
@@ -34,6 +34,8 @@ defmodule UndiWeb.Components.Charts do
       data-categories={Jason.encode!(@categories)}
       data-question={Jason.encode!(@question)}
     >
+     <div class="w-full h-full border border-gray-200 rounded-md sm:block">
+      </div>
     </div>
     """
   end

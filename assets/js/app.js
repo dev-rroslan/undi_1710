@@ -39,6 +39,16 @@ Hooks.Chart = {
             xaxis: {
                 categories: categoriesData
             },
+            height: window.innerWidth < 768 ? 300 : 500, // Adjust for smaller screens
+            responsive: [{
+                breakpoint: 768,
+                options: {
+                    chart: {
+                        width: '100%', // Ensure full width on smaller screens
+                        height: '100%', // Ensure full width on smaller screens
+                    },
+                },
+            }],
              tooltip: {
             custom: function({ series, seriesIndex, dataPointIndex, w }) {
                 const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
