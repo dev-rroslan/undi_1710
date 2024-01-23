@@ -39,12 +39,7 @@ defmodule UndiWeb.DashboardLive do
       females_count,
      data
     } = Surveys.get_filtered_surveys_by_age()
-    data_set_for_gender = Surveys.get_filtered_surveys_by_gender()
-categories = ["18-30","31-45","46-60","61 & Above"]
-
-    IO.inspect("------data-----------")
-    IO.inspect(data)
-    IO.inspect("------data----------")
+    categories = ["18-30","31-45","46-60","61 & Above"]
     {
       :ok,
       socket
@@ -52,7 +47,6 @@ categories = ["18-30","31-45","46-60","61 & Above"]
       |> assign(:males, males_count)
       |> assign(:females, females_count)
       |> assign(:categories, categories)
-      |> assign(:data_set_for_gender, data_set_for_gender)
       |> assign(:total_surveys, total)
       |> assign(:question, data)
 

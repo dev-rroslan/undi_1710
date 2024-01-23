@@ -31,7 +31,6 @@ Hooks.Chart = {
         const seriesData = JSON.parse(this.el.dataset.series)
         const categoriesData = JSON.parse(this.el.dataset.categories)
         const questionData = JSON.parse(this.el.dataset.question)
-console.log(seriesData)
         const options = {
             chart: Object.assign({
                 background: 'transparent',

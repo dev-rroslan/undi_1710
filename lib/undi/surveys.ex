@@ -225,7 +225,6 @@ defmodule Undi.Surveys do
       three_female,
       four_female
     ]
-    #           |> Enum.filter(fn x -> x != %{} end)
 
     {
       total,
@@ -235,36 +234,6 @@ defmodule Undi.Surveys do
     }
 
   end
-  def get_filtered_surveys_by_gender() do
-    male = Repo.one(
-      from s in Survey,
-      where: s.gender in ["male", "Male"],
-      select: count(s.id)
-    )
-    female = Repo.one(
-      from s in Survey,
-      where: s.gender in ["female", "Female"],
-      select: count(s.id)
-    )
-
-    [
-      %{
-        name: "Gender",
-        data: [
-          %{
-            x: "Male",
-            y: male
-          },
-          %{
-            x: "Female",
-            y: female
-          }
-        ]
-      }
-    ]
-
-  end
-
 
   def count_yes_no(maps) do
     fields = [:datar_padu, :sokong_fedaral, :sokong_negeri]
@@ -276,12 +245,6 @@ defmodule Undi.Surveys do
            |> Enum.reduce(
                 acc,
                 fn field, acc ->
-                  IO.inspect("------acc-----------")
-                  IO.inspect(acc)
-                  IO.inspect("------acc----------")
-                  IO.inspect("------field-----------")
-                  IO.inspect(field)
-                  IO.inspect("------field----------")
                   counts = Map.get(acc, field, %{"yes" => 0, "no" => 0})
                 
                   updated_counts = Map.put(counts, to_string(map[field]), counts[to_string(map[field])] + 1)
