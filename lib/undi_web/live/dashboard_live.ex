@@ -11,12 +11,12 @@ defmodule UndiWeb.DashboardLive do
       Survey Dashboard
       <:subtitle>Visualize Realtime Analytics for Surveys</:subtitle>
     </.header>
-    <h5>Total surveys: <%= @total_surveys %></h5>
 
     <p class="text-center text-sm">
       <b>Age and Gender</b>
     </p>
-    <.line_graph id="line-chart-1" height={420} width={640} dataset={[
+    <.live_component module={UndiWeb.Components.Charts} id="line-chart-1"
+    id="line-chart-1" height={420} width={640} dataset={[
     %{
       name: "Males",
       data: @males
@@ -27,7 +27,9 @@ defmodule UndiWeb.DashboardLive do
     }
     ]}
     categories={@categories}
-    question={@question} />
+    question={@question}
+
+    />
 
 
     """
@@ -35,7 +37,7 @@ defmodule UndiWeb.DashboardLive do
 
   @impl true
   def mount(_params, session, socket) do
-    {total, males_count,
+    {males_count,
       females_count,
      data
     } = Surveys.get_filtered_surveys_by_age()
@@ -47,7 +49,6 @@ defmodule UndiWeb.DashboardLive do
       |> assign(:males, males_count)
       |> assign(:females, females_count)
       |> assign(:categories, categories)
-      |> assign(:total_surveys, total)
       |> assign(:question, data)
 
     }

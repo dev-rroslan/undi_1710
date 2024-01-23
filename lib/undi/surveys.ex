@@ -210,11 +210,6 @@ defmodule Undi.Surveys do
     females_count = [count_one_female] ++ [count_two_female] ++ [count_three_female] ++ [count_four_female]
 
 
-    total = Repo.one(
-      from s in Survey,
-      select: count(s.id)
-    )
-
     data = [
       one_male,
       two_male,
@@ -227,7 +222,6 @@ defmodule Undi.Surveys do
     ]
 
     {
-      total,
       males_count,
       females_count,
       data

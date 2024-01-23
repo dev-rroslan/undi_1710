@@ -31,6 +31,7 @@ Hooks.Chart = {
         const seriesData = JSON.parse(this.el.dataset.series)
         const categoriesData = JSON.parse(this.el.dataset.categories)
         const questionData = JSON.parse(this.el.dataset.question)
+        console.log(seriesData)
         const options = {
             chart: Object.assign({
                 background: 'transparent',
@@ -49,47 +50,85 @@ Hooks.Chart = {
                     },
                 },
             }],
-             tooltip: {
-            custom: function({ series, seriesIndex, dataPointIndex, w }) {
-                const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
-                const question = questionData[globalDataPointIndex];
+            tooltip: {
+                custom: function ({series, seriesIndex, dataPointIndex, w}) {
+                    const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
+                    const question = questionData[globalDataPointIndex];
 
-                const questionDetails = Object.entries(question)
-                    .map(([key, value]) => {
-                        const capitalizedKey = key
-                            .split('_')
-                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                            .join(' ');
+                    const questionDetails = Object.entries(question)
+                        .map(([key, value]) => {
+                            const capitalizedKey = key
+                                .split('_')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
 
-                        const translatedValue = Object.entries(value)
-                            .map(([subKey, subValue]) => {
-                                const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
-                                return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
-                            })
-                            .join('<br>');
+                            const translatedValue = Object.entries(value)
+                                .map(([subKey, subValue]) => {
+                                    const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
+                                    return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
+                                })
+                                .join('<br>');
 
-                        return `${capitalizedKey}<br>${translatedValue}`;
-                    })
-                    .join('<br>');
+                            return `${capitalizedKey}<br>${translatedValue}`;
+                        })
+                        .join('<br>');
 
-                return (
-                    '<div class="arrow_box">' +
-                    questionDetails +
-                    "</div>"
-                );
-            }
+                    return (
+                        '<div class="arrow_box">' +
+                        questionDetails +
+                        "</div>"
+                    );
+                }
             }
         }
 
         const chart = new ApexCharts(this.el, options);
 
         chart.render();
+        this.handleEvent("update-dataset", data => {
+
+            const questionData = data.question
+
+            chart.updateOptions({
+                series: data.dataset,
+                tooltip: {
+                    custom: function ({series, seriesIndex, dataPointIndex, w}) {
+                        const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
+                        const question = questionData[globalDataPointIndex];
+
+                        const questionDetails = Object.entries(question)
+                            .map(([key, value]) => {
+                                const capitalizedKey = key
+                                    .split('_')
+                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .join(' ');
+
+                                const translatedValue = Object.entries(value)
+                                    .map(([subKey, subValue]) => {
+                                        const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
+                                        return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
+                                    })
+                                    .join('<br>');
+
+                                return `${capitalizedKey}<br>${translatedValue}`;
+                            })
+                            .join('<br>');
+
+                        return (
+                            '<div class="arrow_box">' +
+                            questionDetails +
+                            "</div>"
+                        );
+                    }
+                }
+
+            });
+        })
     }
 }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks})
-
 
 
 // Show progress bar on live navigation and form submits
