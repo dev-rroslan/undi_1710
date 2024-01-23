@@ -2,7 +2,6 @@ defmodule UndiWeb.DashboardLive do
   use UndiWeb, :live_view
 
   alias Undi.Surveys
-  import UndiWeb.Components.Charts
 
   @impl true
   def render(assigns) do
@@ -15,7 +14,7 @@ defmodule UndiWeb.DashboardLive do
     <p class="text-center text-sm">
       <b>Age and Gender</b>
     </p>
-    <.live_component module={UndiWeb.Components.Charts} id="line-chart-1"
+    <.live_component module={UndiWeb.Components.Charts}
     id="line-chart-1" height={420} width={640} dataset={[
     %{
       name: "Males",
