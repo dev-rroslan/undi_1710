@@ -3,7 +3,6 @@ defmodule UndiWeb.Components.Charts do
   Holds the charts components
   """
   use Phoenix.Component
-
   attr :id, :string, required: true
   attr :type, :string, default: "bar"
   attr :width, :integer, default: nil
@@ -11,6 +10,8 @@ defmodule UndiWeb.Components.Charts do
   attr :animated, :boolean, default: false
   attr :toolbar, :boolean, default: false
   attr :dataset, :list, default: []
+  attr :categories, :list, default: []
+  attr :question, :list, default: []
 
   def line_graph(assigns) do
     ~H"""
@@ -30,12 +31,14 @@ defmodule UndiWeb.Components.Charts do
         }
       })}
       data-series={Jason.encode!(@dataset)}
-
-    ></div>
+      data-categories={Jason.encode!(@categories)}
+      data-question={Jason.encode!(@question)}
+    >
+    </div>
     """
   end
 
   defp trim(map) do
     Map.reject(map, fn {_key, val} -> is_nil(val) || val == "" end)
   end
-end
+  end

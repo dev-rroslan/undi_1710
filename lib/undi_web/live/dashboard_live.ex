@@ -14,29 +14,48 @@ defmodule UndiWeb.DashboardLive do
     <h5>Total surveys: <%= @total_surveys %></h5>
 
     <p class="text-center text-sm">
-      Age
+      <b>Age and Gender</b>
     </p>
-    <.line_graph id="line-chart-1" height={300} width={540} dataset={@data_set_for_age} />
+    <.line_graph id="line-chart-1" height={420} width={640} dataset={[
+    %{
+      name: "Males",
+      data: @males
+    },
+    %{
+      name: "Females",
+      data: @females
+    }
+    ]}
+    categories={@categories}
+    question={@question} />
 
-    <p class="text-center text-sm">
-      Gender
-    </p>
-    <.line_graph id="line-chart-121" height={300} width={540} dataset={@data_set_for_gender} />
+
     """
   end
 
   @impl true
   def mount(_params, session, socket) do
-    {total, data_set_for_age} = Surveys.get_filtered_surveys_by_age()
+    {total, males_count,
+      females_count,
+     data
+    } = Surveys.get_filtered_surveys_by_age()
     data_set_for_gender = Surveys.get_filtered_surveys_by_gender()
+categories = ["18-30","31-45","46-60","61 & Above"]
 
+    IO.inspect("------data-----------")
+    IO.inspect(data)
+    IO.inspect("------data----------")
     {
       :ok,
       socket
       |> assign(:user_token, session["user_token"])
-      |> assign(:data_set_for_age, data_set_for_age)
+      |> assign(:males, males_count)
+      |> assign(:females, females_count)
+      |> assign(:categories, categories)
       |> assign(:data_set_for_gender, data_set_for_gender)
       |> assign(:total_surveys, total)
+      |> assign(:question, data)
+
     }
   end
 end

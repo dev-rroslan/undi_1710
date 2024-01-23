@@ -24,18 +24,54 @@ import topbar from "../vendor/topbar"
 
 // assets/js/app.js
 let Hooks = {}
+
 Hooks.Chart = {
     mounted() {
         const chartConfig = JSON.parse(this.el.dataset.config)
-console.log(chartConfig)
         const seriesData = JSON.parse(this.el.dataset.series)
-        console.log(seriesData)
+        const categoriesData = JSON.parse(this.el.dataset.categories)
+        const questionData = JSON.parse(this.el.dataset.question)
+console.log(seriesData)
         const options = {
             chart: Object.assign({
                 background: 'transparent',
             }, chartConfig),
-            series: seriesData
+            series: seriesData,
+            xaxis: {
+                categories: categoriesData
+            },
+             tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
+                const question = questionData[globalDataPointIndex];
+
+                const questionDetails = Object.entries(question)
+                    .map(([key, value]) => {
+                        const capitalizedKey = key
+                            .split('_')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ');
+
+                        const translatedValue = Object.entries(value)
+                            .map(([subKey, subValue]) => {
+                                const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
+                                return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
+                            })
+                            .join('<br>');
+
+                        return `${capitalizedKey}<br>${translatedValue}`;
+                    })
+                    .join('<br>');
+
+                return (
+                    '<div class="arrow_box">' +
+                    questionDetails +
+                    "</div>"
+                );
+            }
+            }
         }
+
         const chart = new ApexCharts(this.el, options);
 
         chart.render();

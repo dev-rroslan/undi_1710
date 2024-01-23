@@ -31,87 +31,268 @@ defmodule Undi.Surveys do
 
 
   def get_filtered_surveys_by_age() do
-    one = Repo.one(
+    one_male_query = (from s in Survey,
+                           where: s.age >= 18 and s.age <= 30 and s.gender in ["male", "Male"],
+                           select: %{
+                             id: s.id,
+                             sokong_fedaral: s.sokong_fedaral,
+                             sokong_negeri: s.sokong_negeri,
+                             datar_padu: s.datar_padu
+                           }
+      )
+
+
+
+    count_one_male =
+      one_male_query
+      |> Repo.aggregate(:count, :id)
+
+    one_male =
+      one_male_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+    one_female_query = (
       from s in Survey,
-      where: s.age >= 18 and s.age <= 30,
-      select: count(s.id)
-    )
-    two = Repo.one(
+           where: s.age >= 18 and s.age <= 30 and s.gender in ["female", "Female"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+    count_one_female =
+      one_female_query
+      |> Repo.aggregate(:count, :id)
+
+    one_female =
+      one_female_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+    two_male_query = (
       from s in Survey,
-      where: s.age >= 31 and s.age <= 45,
-      select: count(s.id)
-    )
-    three = Repo.one(
+           where: s.age >= 31 and s.age <= 45 and s.gender in ["male", "Male"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+    count_two_male =
+      two_male_query
+      |> Repo.aggregate(:count, :id)
+
+    two_male =
+      two_male_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+
+    two_female_query = (
       from s in Survey,
-      where: s.age >= 45 and s.age <= 60,
-      select: count(s.id)
-    )
-    four = Repo.one(
+           where: s.age >= 31 and s.age <= 45 and s.gender in ["female", "Female"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+    count_two_female =
+      two_female_query
+      |> Repo.aggregate(:count, :id)
+
+    two_female =
+      two_female_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+
+
+    three_male_query = (
       from s in Survey,
-      where: s.age >= 61,
-      select: count(s.id)
-    )
+           where: s.age >= 45 and s.age <= 60 and s.gender in ["male", "Male"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+
+    count_three_male =
+      three_male_query
+      |> Repo.aggregate(:count, :id)
+
+    three_male =
+      three_male_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+    three_female_query = (
+      from s in Survey,
+           where: s.age >= 45 and s.age <= 60 and s.gender in ["female", "Female"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+    count_three_female =
+      three_female_query
+      |> Repo.aggregate(:count, :id)
+
+    three_female =
+      three_female_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+
+    four_male_query = (
+      from s in Survey,
+           where: s.age >= 61 and s.gender in ["male", "Male"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+
+    count_four_male =
+      four_male_query
+      |> Repo.aggregate(:count, :id)
+
+    four_male =
+      four_male_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+    four_female_query = (
+      from s in Survey,
+           where: s.age >= 61 and s.gender in ["female", "Female"],
+           select: %{
+             id: s.id,
+             sokong_fedaral: s.sokong_fedaral,
+             sokong_negeri: s.sokong_negeri,
+             datar_padu: s.datar_padu
+           }
+      )
+
+
+    count_four_female =
+      four_female_query
+      |> Repo.aggregate(:count, :id)
+
+    four_female =
+      four_female_query
+      |> Repo.all()
+      |> count_yes_no()
+
+
+    males_count = [count_one_male] ++ [count_two_male] ++ [count_three_male] ++ [count_four_male]
+    females_count = [count_one_female] ++ [count_two_female] ++ [count_three_female] ++ [count_four_female]
+
+
     total = Repo.one(
       from s in Survey,
       select: count(s.id)
     )
+
+    data = [
+      one_male,
+      two_male,
+      three_male,
+      four_male,
+      one_female,
+      two_female,
+      three_female,
+      four_female
+    ]
+    #           |> Enum.filter(fn x -> x != %{} end)
+
     {
       total,
-      [
-        %{
-          name: "Age",
-          data: [
-            %{
-              x: "18-30",
-              y: one
-            },
-            %{
-              x: "31-45",
-              y: two
-            },
-            %{
-              x: "46-60",
-              y: three
-            },
-            %{
-              x: "61 and Above",
-              y: four
-            }
-          ]
-        }
-      ]
+      males_count,
+      females_count,
+      data
     }
 
   end
   def get_filtered_surveys_by_gender() do
-   male =  Repo.one(
+    male = Repo.one(
       from s in Survey,
       where: s.gender in ["male", "Male"],
       select: count(s.id)
     )
- female =  Repo.one(
+    female = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"],
       select: count(s.id)
     )
 
-   [
-     %{
-       name: "Gender",
-       data: [
-         %{
-           x: "Male",
-           y: male
-         },
-         %{
-           x: "Female",
-           y: female
-         }
-       ]
-     }
-   ]
+    [
+      %{
+        name: "Gender",
+        data: [
+          %{
+            x: "Male",
+            y: male
+          },
+          %{
+            x: "Female",
+            y: female
+          }
+        ]
+      }
+    ]
 
   end
 
 
+  def count_yes_no(maps) do
+    fields = [:datar_padu, :sokong_fedaral, :sokong_negeri]
+    maps
+    |> Enum.reduce(
+         %{},
+         fn map, acc ->
+           fields
+           |> Enum.reduce(
+                acc,
+                fn field, acc ->
+                  IO.inspect("------acc-----------")
+                  IO.inspect(acc)
+                  IO.inspect("------acc----------")
+                  IO.inspect("------field-----------")
+                  IO.inspect(field)
+                  IO.inspect("------field----------")
+                  counts = Map.get(acc, field, %{"yes" => 0, "no" => 0})
+                
+                  updated_counts = Map.put(counts, to_string(map[field]), counts[to_string(map[field])] + 1)
+                  Map.put(acc, field, updated_counts)
+                end
+              )
+         end
+       )
+  end
+
 end
+
+
+
