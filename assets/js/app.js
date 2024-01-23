@@ -62,6 +62,12 @@ Hooks.Chart = {
                             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                             .join(' ');
 
+                        const keyColor = {
+                            sokong_fedaral: 'text-red-500',
+                            sokong_negeri: 'text-blue-400',
+                            datar_padu: 'text-green-500',
+                        }[key] || ''; // Retrieve color based on key
+
                         const translatedValue = Object.entries(value)
                             .map(([subKey, subValue]) => {
                                 const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
@@ -69,7 +75,7 @@ Hooks.Chart = {
                             })
                             .join('<br>');
 
-                        return `${capitalizedKey}<br>${translatedValue}`;
+                        return `<span class="capitalize font-bold ${keyColor}">${capitalizedKey}</span><br>${translatedValue}`;
                     })
                     .join('<br>');
 
