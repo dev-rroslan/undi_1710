@@ -4,6 +4,10 @@ config :undi, Undi.Mailer,
   adapter: Resend.Swoosh.Adapter,
   api_key: System.fetch_env!("RESEND_API_KEY")
 
+#config :undi, Undi.Mailer,
+#  adapter: Swoosh.Adapter.Brevo,
+#  api_key: System.get_env!("BREVO_UNDI_API_KEY")
+
 config :swoosh, :api_client, Swoosh.ApiClient.Finch
 
 # config/runtime.exs is executed for all environments, including
@@ -60,7 +64,7 @@ if config_env() == :prod do
   config :undi, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :undi, UndiWeb.Endpoint,
-    url: [host: host || "undi.online", port: 443, scheme: "https"],
+    url: [host: host, port: 443, scheme: "https"],
     check_origin: [
       "https://undi.online",
       "https://undi.fly.dev"
