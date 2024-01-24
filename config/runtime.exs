@@ -58,7 +58,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "undi.online"
+  host = System.get_env("PHX_HOST") || "pantau.perisian.xyz"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :undi, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
@@ -66,7 +66,7 @@ if config_env() == :prod do
   config :undi, UndiWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     check_origin: [
-      "https://undi.online",
+      "https://pantau.perisian.xyz",
       "https://undi.fly.dev"
     ],
     http: [

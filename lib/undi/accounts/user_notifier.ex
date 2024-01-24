@@ -8,7 +8,7 @@ defmodule Undi.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"Undi", "noreply@undi.online"})
+      |> from({"Undi", "noreply@perisian.xyz"})
       |> subject(subject)
       |> text_body(body)
 
