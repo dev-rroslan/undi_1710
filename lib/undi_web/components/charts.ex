@@ -42,7 +42,7 @@ defmodule UndiWeb.Components.Charts do
 
   def update(%{event: "update_chart"}, socket) do
     send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_chart"], 3_000)
-    {
+    {total,
       males_count,
       females_count,
       data
@@ -58,7 +58,6 @@ defmodule UndiWeb.Components.Charts do
       }
     ]
 
-
     {
       :ok,
       socket
@@ -69,6 +68,7 @@ defmodule UndiWeb.Components.Charts do
       |> assign(:males, males_count)
       |> assign(:females, females_count)
       |> assign(:question, data)
+      |> assign(:total, total)
     }
   end
 

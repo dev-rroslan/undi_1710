@@ -221,7 +221,14 @@ defmodule Undi.Surveys do
       four_female
     ]
 
+    total = Repo.one(
+      from s in Survey,
+      select: count(s.id)
+    )
+
+
     {
+    total,
       males_count,
       females_count,
       data

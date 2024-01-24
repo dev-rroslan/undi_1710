@@ -91,6 +91,45 @@ Hooks.Chart = {
         const chart = new ApexCharts(this.el, options);
 
         chart.render();
+        this.handleEvent("update-dataset", data => {
+
+            const questionData = data.question
+
+            chart.updateOptions({
+                series: data.dataset,
+                tooltip: {
+                    custom: function ({series, seriesIndex, dataPointIndex, w}) {
+                        const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
+                        const question = questionData[globalDataPointIndex];
+
+                        const questionDetails = Object.entries(question)
+                            .map(([key, value]) => {
+                                const capitalizedKey = key
+                                    .split('_')
+                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .join(' ');
+
+                                const translatedValue = Object.entries(value)
+                                    .map(([subKey, subValue]) => {
+                                        const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
+                                        return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
+                                    })
+                                    .join('<br>');
+
+                                return `${capitalizedKey}<br>${translatedValue}`;
+                            })
+                            .join('<br>');
+
+                        return (
+                            '<div class="arrow_box">' +
+                            questionDetails +
+                            "</div>"
+                        );
+                    }
+                }
+
+            });
+        })
 
     }
 }

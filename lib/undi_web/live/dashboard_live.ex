@@ -10,6 +10,8 @@ defmodule UndiWeb.DashboardLive do
       Survey Dashboard
       <:subtitle>Visualize Realtime Analytics for Surveys</:subtitle>
     </.header>
+        <h5>Total surveys: <%= @total_surveys %></h5>
+
 
     <p class="text-center text-sm">
       <b>Age and Gender</b>
@@ -36,7 +38,7 @@ defmodule UndiWeb.DashboardLive do
 
   @impl true
   def mount(_params, session, socket) do
-    {males_count,
+    {total,males_count,
       females_count,
      data
     } = Surveys.get_filtered_surveys_by_age()
@@ -49,6 +51,8 @@ defmodule UndiWeb.DashboardLive do
       |> assign(:females, females_count)
       |> assign(:categories, categories)
       |> assign(:question, data)
+      |> assign(:total_surveys, total)
+
 
     }
   end
