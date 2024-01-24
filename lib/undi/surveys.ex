@@ -37,7 +37,7 @@ defmodule Undi.Surveys do
                              id: s.id,
                              sokong_fedaral: s.sokong_fedaral,
                              sokong_negeri: s.sokong_negeri,
-                             datar_padu: s.datar_padu
+                             daftar_padu: s.datar_padu
                            }
       )
 
@@ -60,7 +60,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -81,7 +81,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -103,7 +103,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
     count_two_female =
@@ -125,7 +125,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -147,7 +147,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -169,7 +169,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -191,7 +191,7 @@ defmodule Undi.Surveys do
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
              sokong_negeri: s.sokong_negeri,
-             datar_padu: s.datar_padu
+             daftar_padu: s.datar_padu
            }
       )
 
@@ -237,7 +237,7 @@ defmodule Undi.Surveys do
   end
 
   def count_yes_no(maps) do
-    fields = [:datar_padu, :sokong_fedaral, :sokong_negeri]
+    fields = [:daftar_padu, :sokong_fedaral, :sokong_negeri]
     maps
     |> Enum.reduce(
          %{},

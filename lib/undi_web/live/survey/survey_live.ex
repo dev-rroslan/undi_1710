@@ -5,8 +5,6 @@ defmodule UndiWeb.SurveyLive do
   alias Undi.Surveys
   alias Undi.Surveys.Survey
 
-
-
   @impl true
   def render(assigns) do
     ~H"""
@@ -129,8 +127,10 @@ defmodule UndiWeb.SurveyLive do
         "age" => socket.assigns.age
       }
     )
-    with {:ok, _survey} <- Surveys.create_survey(survey_params),
+    with {:ok, survey} <- Surveys.create_survey(survey_params),
          {:ok, _token} <- Tokens.update_token(socket.assigns.token_data, %{"token" => nil}) do
+      Phoenix.PubSub.broadcast(Undi.PubSub, "UndiWeb.DashboardLive", survey)
+
       {
         :noreply,
         socket
