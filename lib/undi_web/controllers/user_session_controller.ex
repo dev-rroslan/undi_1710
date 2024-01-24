@@ -4,9 +4,9 @@ defmodule UndiWeb.UserSessionController do
   alias Undi.Accounts
   alias UndiWeb.UserAuth
 
-  def create(conn, %{"_action" => "registered"} = params) do
-    create(conn, params, "Account created successfully!")
-  end
+  #def create(conn, %{"_action" => "registered"} = params) do
+  #  create(conn, params, "Account created successfully!")
+  #end
 
   def create(conn, %{"_action" => "password_updated"} = params) do
     conn
