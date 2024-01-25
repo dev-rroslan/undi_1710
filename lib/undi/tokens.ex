@@ -58,7 +58,6 @@ defmodule Undi.Tokens do
         "expiration" => Timex.local() |> Timex.add(Timex.Duration.from_hours(24))
       })
 
-
     %Token{}
     |> Token.changeset(attrs)
     |> Repo.insert()

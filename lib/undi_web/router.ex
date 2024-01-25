@@ -73,7 +73,6 @@ defmodule UndiWeb.Router do
 
       live "/survey-dashboard", DashboardLive
 
-
       live "/generate", GenerateLive
     end
   end

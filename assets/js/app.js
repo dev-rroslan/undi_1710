@@ -31,7 +31,6 @@ Hooks.Chart = {
         const seriesData = JSON.parse(this.el.dataset.series)
         const categoriesData = JSON.parse(this.el.dataset.categories)
         const questionData = JSON.parse(this.el.dataset.question)
-        console.log(seriesData)
         const options = {
             chart: Object.assign({
                 background: 'transparent',
@@ -50,41 +49,41 @@ Hooks.Chart = {
                     },
                 },
             }],
-             tooltip: {
-            custom: function({ series, seriesIndex, dataPointIndex, w }) {
-                const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
-                const question = questionData[globalDataPointIndex];
+            tooltip: {
+                custom: function ({series, seriesIndex, dataPointIndex, w}) {
+                    const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
+                    const question = questionData[globalDataPointIndex];
 
-                const questionDetails = Object.entries(question)
-                    .map(([key, value]) => {
-                        const capitalizedKey = key
-                            .split('_')
-                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                            .join(' ');
+                    const questionDetails = Object.entries(question)
+                        .map(([key, value]) => {
+                            const capitalizedKey = key
+                                .split('_')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
 
-                        const keyColor = {
-                            sokong_fedaral: 'text-red-500',
-                            sokong_negeri: 'text-blue-400',
-                            datar_padu: 'text-green-500',
-                        }[key] || ''; // Retrieve color based on key
+                            const keyColor = {
+                                sokong_fedaral: 'text-red-500',
+                                sokong_negeri: 'text-blue-400',
+                                datar_padu: 'text-green-500',
+                            }[key] || ''; // Retrieve color based on key
 
-                        const translatedValue = Object.entries(value)
-                            .map(([subKey, subValue]) => {
-                                const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
-                                return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
-                            })
-                            .join('<br>');
+                            const translatedValue = Object.entries(value)
+                                .map(([subKey, subValue]) => {
+                                    const translatedKey = subKey === 'no' ? 'tidak' : (subKey === 'yes' ? 'ya' : subKey);
+                                    return `${translatedKey}: ${subValue}`; // Use translatedKey and keep value as-is
+                                })
+                                .join('<br>');
 
-                        return `<span class="capitalize font-bold ${keyColor}">${capitalizedKey}</span><br>${translatedValue}`;
-                    })
-                    .join('<br>');
+                            return `<span class="capitalize font-bold ${keyColor}">${capitalizedKey}</span><br>${translatedValue}`;
+                        })
+                        .join('<br>');
 
-                return (
-                    '<div class="arrow_box">' +
-                    questionDetails +
-                    "</div>"
-                );
-            }
+                    return (
+                        '<div class="arrow_box">' +
+                        questionDetails +
+                        "</div>"
+                    );
+                }
             }
         }
 
@@ -98,7 +97,7 @@ Hooks.Chart = {
             chart.updateOptions({
                 series: data.dataset,
                 tooltip: {
-                    custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                    custom: function ({series, seriesIndex, dataPointIndex, w}) {
                         const globalDataPointIndex = seriesIndex * categoriesData.length + dataPointIndex;
                         const question = questionData[globalDataPointIndex];
 
@@ -140,9 +139,84 @@ Hooks.Chart = {
     }
 }
 
+
+Hooks.F_Chart = {
+    mounted() {
+
+        const seriesData = JSON.parse(this.el.dataset.series)
+
+        var options = {
+            series: seriesData,
+            chart: {
+                width: '100%',
+                type: 'pie',
+            },
+            labels: ['Sokong Fedaral(Male): Tidak', 'Sokong Fedaral(Male): ya', 'Sokong Fedaral(Female): Tidak', 'Sokong Fedaral(Female): Ya'],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: '100%'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+
+        const chart = new ApexCharts(this.el, options);
+        chart.render();
+        this.handleEvent("update-f-dataset", data => {
+
+            chart.updateOptions({
+                series: data.dataset,
+
+            });
+        })
+
+    }
+}
+Hooks.N_Chart = {
+    mounted() {
+
+        const seriesData = JSON.parse(this.el.dataset.series)
+
+        var options = {
+            series: seriesData,
+            chart: {
+                width: '100%',
+                type: 'pie',
+            },
+            labels: ['Sokong Negeri(Male): Tidak', 'Sokong Negeri(Male): ya', 'Sokong Negeri(Female): Tidak', 'Sokong Negeri(Female): Ya'],
+            height: window.innerWidth < 768 ? 300 : 500, // Adjust for smaller screens
+
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: '100%'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+
+        const chart = new ApexCharts(this.el, options);
+        chart.render();
+        this.handleEvent("update-n-dataset", data => {
+            chart.updateOptions({
+                series: data.dataset,
+
+            });
+        })
+    }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks})
-
 
 
 // Show progress bar on live navigation and form submits

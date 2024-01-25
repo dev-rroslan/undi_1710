@@ -14,39 +14,41 @@ defmodule UndiWeb.Components.Charts do
   attr :categories, :list, default: []
   attr :question, :list, default: []
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div
       id={@id}
       class="container mx-auto p-4 overflow-hidden sm:p-6 lg:p-8"
       phx-hook="Chart"
-      data-config={Jason.encode!(trim %{
-        height: @height,
-        width: @width,
-        type: @type,
-        animations: %{
-          enabled: @animated
-        },
-        toolbar: %{
-          show: @toolbar
-        }
-      })}
+      data-config={
+        Jason.encode!(
+          trim(%{
+            height: @height,
+            width: @width,
+            type: @type,
+            animations: %{
+              enabled: @animated
+            },
+            toolbar: %{
+              show: @toolbar
+            }
+          })
+        )
+      }
       data-series={Jason.encode!(@dataset)}
       data-categories={Jason.encode!(@categories)}
       data-question={Jason.encode!(@question)}
     >
-
     </div>
     """
   end
 
+  @impl true
   def update(%{event: "update_chart"}, socket) do
-    send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_chart"], 3_000)
-    {total,
-      males_count,
-      females_count,
-      data
-    } = Undi.Surveys.get_filtered_surveys_by_age()
+    send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_chart"], 5_000)
+    {total, males_count, females_count, data} = Undi.Surveys.get_filtered_surveys_by_age()
+
     dataset = [
       %{
         name: "Males",
@@ -62,9 +64,9 @@ defmodule UndiWeb.Components.Charts do
       :ok,
       socket
       |> push_event(
-           "update-dataset",
-           %{dataset: dataset, question: data}
-         )
+        "update-dataset",
+        %{dataset: dataset, question: data}
+      )
       |> assign(:males, males_count)
       |> assign(:females, females_count)
       |> assign(:question, data)
@@ -72,8 +74,8 @@ defmodule UndiWeb.Components.Charts do
     }
   end
 
+  @impl true
   def update(assigns, socket) do
-
     send_update_after(__MODULE__, [id: assigns.id, event: "update_chart"], 5_000)
 
     {

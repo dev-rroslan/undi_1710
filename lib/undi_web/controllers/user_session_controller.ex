@@ -46,6 +46,6 @@ defmodule UndiWeb.UserSessionController do
     conn
     |> put_flash(:info, "Welcome to survey")
     |> put_session(:country_issued_id, token_param["country_issued_id"])
-   |> redirect(to: ~p"/survey/#{token_data.token}")
+    |> redirect(to: ~p"/survey/#{token_data.token}")
   end
 end

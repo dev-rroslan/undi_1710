@@ -13,5 +13,4 @@ defmodule Undi.Repo.Migrations.CreateTokens do
     create unique_index(:tokens, [:country_issued_id])
     create index(:tokens, [:expiration])
   end
-
 end

@@ -7,9 +7,15 @@ defmodule UndiWeb.LoginLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <.simple_form for={@form} id="country_issued_id_form" phx-change="validate" phx-submit="submit"      phx-trigger-action={@trigger_submit}
-        action={~p"/survey-login"}
-        method="get">
+    <.simple_form
+      for={@form}
+      id="country_issued_id_form"
+      phx-change="validate"
+      phx-submit="submit"
+      phx-trigger-action={@trigger_submit}
+      action={~p"/survey-login"}
+      method="get"
+    >
       <.input
         field={@form[:country_issued_id]}
         value={@form.params["country_issued_id"]}
@@ -27,19 +33,19 @@ defmodule UndiWeb.LoginLive do
   @impl true
   def mount(_params, _session, socket) do
     changeset = change(Token, %Token{})
+
     {
       :ok,
       socket
       |> assign_form(changeset)
       |> assign(trigger_submit: false)
-
     }
   end
 
   @impl true
   def handle_event("submit", %{"token" => token_param}, socket) do
-
-    with %Token{token: token} when token not in [nil, ""]<- Tokens.get_token!(token_param["country_issued_id"]) do
+    with %Token{token: token} when token not in [nil, ""] <-
+           Tokens.get_token!(token_param["country_issued_id"]) do
       {
         :noreply,
         socket
@@ -48,15 +54,21 @@ defmodule UndiWeb.LoginLive do
       }
     else
       _ ->
-
-        {:noreply, socket |> put_flash(:error, "Login failed! please make sure that MyKad is correct or the token is generated")}
+        {:noreply,
+         socket
+         |> put_flash(
+           :error,
+           "Login failed! please make sure that MyKad is correct or the token is generated"
+         )}
     end
   end
 
   @impl true
   def handle_event("validate", p, socket) do
-    changeset = change(Token, %Token{}, p["token"])
-                |> Map.put(:action, :validate)
+    changeset =
+      change(Token, %Token{}, p["token"])
+      |> Map.put(:action, :validate)
+
     {
       :noreply,
       socket
@@ -71,5 +83,4 @@ defmodule UndiWeb.LoginLive do
   defp change(model, data, attrs \\ %{}) do
     model.changeset(data, attrs)
   end
-
 end

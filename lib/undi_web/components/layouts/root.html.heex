@@ -8,8 +8,9 @@
       <%= assigns[:page_title] || "Pantau" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts">
+    </script>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
 
@@ -27,7 +28,7 @@
             Dashboard
           </.link>
         </li>
-      <li>
+        <li>
           <.link
             href={~p"/generate"}
             class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
