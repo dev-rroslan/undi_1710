@@ -238,22 +238,23 @@ defmodule Undi.Surveys do
       where: s.gender in ["male", "Male"] and s.sokong_fedaral == :no,
       select: count(s.id)
     )
-    fedaral_male_yes = Repo.one(
-      from s in Survey,
-      where: s.gender in ["male", "Male"] and s.sokong_fedaral == :yes,
-      select: count(s.id)
-    )
     fedaral_female_no = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_fedaral == :no,
       select: count(s.id)
     )
+    fedaral_male_yes = Repo.one(
+      from s in Survey,
+      where: s.gender in ["male", "Male"] and s.sokong_fedaral == :yes,
+      select: count(s.id)
+    )
+
     fedaral_female_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_fedaral == :yes,
       select: count(s.id)
     )
-    [fedaral_male_no, fedaral_male_yes, fedaral_female_no, fedaral_female_yes]
+    [fedaral_male_no,fedaral_female_no, fedaral_male_yes, fedaral_female_yes]
 
   end
 
@@ -263,22 +264,23 @@ defmodule Undi.Surveys do
       where: s.gender in ["male", "Male"] and s.sokong_negeri == :no,
       select: count(s.id)
     )
-    negeri_male_yes = Repo.one(
-      from s in Survey,
-      where: s.gender in ["male", "Male"] and s.sokong_negeri == :yes,
-      select: count(s.id)
-    )
     negeri_female_no = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_negeri == :no,
       select: count(s.id)
     )
+    negeri_male_yes = Repo.one(
+      from s in Survey,
+      where: s.gender in ["male", "Male"] and s.sokong_negeri == :yes,
+      select: count(s.id)
+    )
+
     negeri_female_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_negeri == :yes,
       select: count(s.id)
     )
-    [negeri_male_no, negeri_male_yes, negeri_female_no, negeri_female_yes]
+    [negeri_male_no,negeri_female_no, negeri_male_yes, negeri_female_yes]
 
   end
 end

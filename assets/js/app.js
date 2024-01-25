@@ -146,12 +146,13 @@ Hooks.F_Chart = {
         const seriesData = JSON.parse(this.el.dataset.series)
 
         var options = {
+            colors: ['#32527b', '#0014a8', '#004225', '#3A5F0B'],
             series: seriesData,
             chart: {
                 width: '100%',
                 type: 'pie',
             },
-            labels: ['Sokong Fedaral(Male): Tidak', 'Sokong Fedaral(Male): ya', 'Sokong Fedaral(Female): Tidak', 'Sokong Fedaral(Female): Ya'],
+            labels: ['Sokong Fedaral(Male): Tidak','Sokong Fedaral(Female): Tidak', 'Sokong Fedaral(Male): ya',  'Sokong Fedaral(Female): Ya'],
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -184,11 +185,13 @@ Hooks.N_Chart = {
 
         var options = {
             series: seriesData,
+            colors: ['#32527b', '#0014a8', '#004225', '#3A5F0B'],
+
             chart: {
                 width: '100%',
                 type: 'pie',
             },
-            labels: ['Sokong Negeri(Male): Tidak', 'Sokong Negeri(Male): ya', 'Sokong Negeri(Female): Tidak', 'Sokong Negeri(Female): Ya'],
+            labels: ['Sokong Negeri(Male): Tidak', 'Sokong Negeri(Female): Tidak', 'Sokong Negeri(Male): ya', 'Sokong Negeri(Female): Ya'],
             height: window.innerWidth < 768 ? 300 : 500, // Adjust for smaller screens
 
             responsive: [{
