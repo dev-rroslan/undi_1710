@@ -7,6 +7,10 @@ defmodule UndiWeb.LoginLive do
   @impl true
   def render(assigns) do
     ~H"""
+    <.header class="text-center">
+      Cara Guna Login
+      <:subtitle>Agen akan buat Token menggunakan nombor MyKad, kami akan process untuk mendapatkan umur dan jantina sahaja</:subtitle>
+    </.header>
     <.simple_form
       for={@form}
       id="country_issued_id_form"
