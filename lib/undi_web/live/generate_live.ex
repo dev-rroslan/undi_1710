@@ -9,7 +9,7 @@ defmodule UndiWeb.GenerateLive do
     ~H"""
     <.header>
       Token untuk login survey
-      <:subtitle>Kami hanya guna jantina dan umur dari MyKad</:subtitle>
+      <:subtitle>Taip nombor MyKad, copy dan paste di kotak login ke survey</:subtitle>
     </.header>
 
     <div>
