@@ -206,8 +206,6 @@ Hooks.N_Chart = {
                 width: '100%',
                 type: 'pie',
             },
-            legend: {show: false},
-
             labels: ['Sokong Negeri(Male): Tidak', 'Sokong Negeri(Female): Tidak', 'Sokong Negeri(Male): ya', 'Sokong Negeri(Female): Ya'],
             height: window.innerWidth < 768 ? 300 : 500, // Adjust for smaller screens
 
@@ -222,19 +220,7 @@ Hooks.N_Chart = {
                         position: 'bottom'
                     }
                 }
-            },
-                {  // Additional breakpoint for iPad
-                    breakpoint: 768,  // Adjust as needed for specific iPad models
-                    options: {
-                        chart: {
-                            width: '100%',
-                            animations: {
-                                // Consider adjusting animations for iPad if desired
-                            }
-                        },
-                        // Customize other elements for iPad if needed
-                    }
-                }
+            }
             ]
         };
 
