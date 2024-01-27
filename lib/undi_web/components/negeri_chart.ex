@@ -28,7 +28,7 @@ defmodule UndiWeb.Components.NegeriChart do
   @impl true
   def update(%{event: "update_n_chart"}, socket) do
     send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_n_chart"], 5_000)
-    n_chart = Undi.Surveys.get_federal_values()
+    n_chart = Undi.Surveys.get_negeri_values()
 
 
     {
