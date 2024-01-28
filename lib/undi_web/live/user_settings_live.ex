@@ -83,7 +83,7 @@ defmodule UndiWeb.UserSettingsLive do
           put_flash(socket, :error, "Email change link is invalid or it has expired.")
       end
 
-    {:ok, push_navigate(socket, to: ~p"/users/settings")}
+    {:ok, push_navigate(socket, to: ~p"/")}
   end
 
   def mount(_params, _session, socket) do
