@@ -13,6 +13,7 @@ defmodule UndiWeb.SurveyLive do
     <%!-- <h3>Country Issued Id: <%= @token_data.country_issued_id %></h3> --%>
     <h3>Jantina: <%= @gender %></h3>
     <h3>Umur: <%= @age %></h3>
+    <h3>Area: <%= @area %></h3>
 
     <.simple_form
       for={@form}
@@ -114,6 +115,7 @@ defmodule UndiWeb.SurveyLive do
         |> assign(:token_data, token_data)
         |> assign(:gender, gender)
         |> assign(:age, age)
+        |> assign(:area,  session["area"])
         |> assign_form(changeset)
       }
     else
@@ -133,7 +135,8 @@ defmodule UndiWeb.SurveyLive do
         %{
           "country_issued_id" => socket.assigns.token_data.country_issued_id,
           "gender" => socket.assigns.gender,
-          "age" => socket.assigns.age
+          "age" => socket.assigns.age,
+          "area" => socket.assigns.area
         }
       )
 

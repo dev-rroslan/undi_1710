@@ -17,6 +17,8 @@ defmodule UndiWeb.Components.Charts do
   @impl true
   def render(assigns) do
     ~H"""
+    <div>
+        <h3 style = "text-align: center; margin-top: 20px;">Age and Gender</h3>
     <div
       id={@id}
       class="container mx-auto p-4 overflow-hidden sm:p-6 lg:p-8"
@@ -41,13 +43,20 @@ defmodule UndiWeb.Components.Charts do
       data-question={Jason.encode!(@question)}
     >
     </div>
+    </div>
     """
   end
 
   @impl true
   def update(%{event: "update_chart"}, socket) do
-    send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_chart"], 5_000)
-    {total, males_count, females_count, data} = Undi.Surveys.get_filtered_surveys_by_age()
+    send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_chart"], 10_000)
+    filter = if socket.assigns.area do
+      %{"area" => socket.assigns.area}
+    else
+      %{}
+    end
+
+    {total, males_count, females_count, data} = Undi.Surveys.get_filtered_surveys_by_age(filter)
 
     dataset = [
       %{
@@ -64,9 +73,9 @@ defmodule UndiWeb.Components.Charts do
       :ok,
       socket
       |> push_event(
-        "update-dataset",
-        %{dataset: dataset, question: data}
-      )
+           "update-dataset",
+           %{dataset: dataset, question: data}
+         )
       |> assign(:males, males_count)
       |> assign(:females, females_count)
       |> assign(:question, data)
@@ -76,7 +85,7 @@ defmodule UndiWeb.Components.Charts do
 
   @impl true
   def update(assigns, socket) do
-    send_update_after(__MODULE__, [id: assigns.id, event: "update_chart"], 5_000)
+    send_update_after(__MODULE__, [id: assigns.id, event: "update_chart"], 10_000)
 
     {
       :ok,

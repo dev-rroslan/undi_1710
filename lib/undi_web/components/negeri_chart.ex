@@ -3,6 +3,8 @@ defmodule UndiWeb.Components.NegeriChart do
   Holds the FederalChart components
   """
   use UndiWeb, :live_component
+  alias Undi.Surveys
+
 
   attr :id, :string, required: true
   attr :dataset, :list, default: []
@@ -28,8 +30,8 @@ defmodule UndiWeb.Components.NegeriChart do
   @impl true
   def update(%{event: "update_n_chart"}, socket) do
     send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_n_chart"], 5_000)
-    n_chart = Undi.Surveys.get_negeri_values()
-
+    filters = if socket.assigns.area do %{"area" => socket.assigns.area} else %{} end
+    n_chart = Surveys.get_negeri_values(filters)
 
     {
       :ok,

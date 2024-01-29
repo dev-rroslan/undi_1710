@@ -3,6 +3,7 @@ defmodule UndiWeb.LoginLive do
 
   alias Undi.Tokens
   alias Undi.Tokens.Token
+  alias Undi.Area
 
   @impl true
   def render(assigns) do
@@ -27,6 +28,7 @@ defmodule UndiWeb.LoginLive do
         label="MyKad"
         required="true"
       />
+    <.input name={"token[area]"} value= {assigns[:area]} type="select" label= "Area" options={@areas}  required="true" prompt={gettext("Please select a area")} />
       <:actions>
         <.button phx-disable-with="Submitting...">Login ke Survey</.button>
       </:actions>
@@ -37,19 +39,34 @@ defmodule UndiWeb.LoginLive do
   @impl true
   def mount(_params, _session, socket) do
     changeset = change(Token, %Token{})
+    areas =
+      Enum.reduce(
+        Area.areas_list(),
+        [],
+        fn {key, value}, acc ->
+          if value == true do
+            acc ++ [key]
+          else
+            acc
+          end
+        end
+      )
+
 
     {
       :ok,
       socket
       |> assign_form(changeset)
       |> assign(trigger_submit: false)
+      |> assign(areas: areas)
     }
   end
 
   @impl true
   def handle_event("submit", %{"token" => token_param}, socket) do
     with %Token{token: token} when token not in [nil, ""] <-
-           Tokens.get_token!(token_param["country_issued_id"]) do
+           Tokens.get_token!(token_param["country_issued_id"]),
+         area when area not in [nil, ""] <- token_param["area"] do
       {
         :noreply,
         socket
@@ -58,12 +75,14 @@ defmodule UndiWeb.LoginLive do
       }
     else
       _ ->
-        {:noreply,
-         socket
-         |> put_flash(
-           :error,
-           "Login failed! please make sure that MyKad is correct or the token is generated"
-         )}
+        {
+          :noreply,
+          socket
+          |> put_flash(
+               :error,
+               "Login failed! please make sure that MyKad is correct or the token is generated or area is selected"
+             )
+        }
     end
   end
 

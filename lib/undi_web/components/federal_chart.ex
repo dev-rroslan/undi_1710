@@ -3,6 +3,8 @@ defmodule UndiWeb.Components.FederalChart do
   Holds the FederalChart components
   """
   use UndiWeb, :live_component
+  alias Undi.Surveys
+
 
   attr :id, :string, required: true
   attr :dataset, :list, default: []
@@ -28,7 +30,9 @@ defmodule UndiWeb.Components.FederalChart do
   @impl true
   def update(%{event: "update_f_chart"}, socket) do
     send_update_after(__MODULE__, [id: socket.assigns.id, event: "update_f_chart"], 5_000)
-    f_chart = Undi.Surveys.get_federal_values()
+    filters = if socket.assigns.area do %{"area" => socket.assigns.area} else %{} end
+    f_chart = Surveys.get_federal_values(filters)
+
 
 
     {

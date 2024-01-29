@@ -26,10 +26,11 @@ defmodule Undi.Surveys do
     |> Repo.insert()
   end
 
-  def get_filtered_surveys_by_age() do
+  def get_filtered_surveys_by_age(filters \\ %{}) do
     one_male_query =
       from s in Survey,
            where: s.age >= 18 and s.age <= 30 and s.gender in ["male", "Male"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -49,6 +50,7 @@ defmodule Undi.Surveys do
     one_female_query =
       from s in Survey,
            where: s.age >= 18 and s.age <= 30 and s.gender in ["female", "Female"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -68,6 +70,7 @@ defmodule Undi.Surveys do
     two_male_query =
       from s in Survey,
            where: s.age >= 31 and s.age <= 45 and s.gender in ["male", "Male"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -87,6 +90,7 @@ defmodule Undi.Surveys do
     two_female_query =
       from s in Survey,
            where: s.age >= 31 and s.age <= 45 and s.gender in ["female", "Female"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -106,6 +110,7 @@ defmodule Undi.Surveys do
     three_male_query =
       from s in Survey,
            where: s.age >= 45 and s.age <= 60 and s.gender in ["male", "Male"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -125,6 +130,7 @@ defmodule Undi.Surveys do
     three_female_query =
       from s in Survey,
            where: s.age >= 45 and s.age <= 60 and s.gender in ["female", "Female"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -144,6 +150,7 @@ defmodule Undi.Surveys do
     four_male_query =
       from s in Survey,
            where: s.age >= 61 and s.gender in ["male", "Male"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -163,6 +170,7 @@ defmodule Undi.Surveys do
     four_female_query =
       from s in Survey,
            where: s.age >= 61 and s.gender in ["female", "Female"],
+           where: ^filter(filters),
            select: %{
              id: s.id,
              sokong_fedaral: s.sokong_fedaral,
@@ -198,6 +206,7 @@ defmodule Undi.Surveys do
     total =
       Repo.one(
         from s in Survey,
+        where: ^filter(filters),
         select: count(s.id)
       )
 
@@ -232,55 +241,87 @@ defmodule Undi.Surveys do
        )
   end
 
-  def get_federal_values() do
+  def get_federal_values(filters \\ %{}) do
     fedaral_male_no = Repo.one(
       from s in Survey,
       where: s.gender in ["male", "Male"] and s.sokong_fedaral == :no,
+      where: ^filter(filters),
       select: count(s.id)
     )
     fedaral_female_no = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_fedaral == :no,
+      where: ^filter(filters),
       select: count(s.id)
     )
     fedaral_male_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["male", "Male"] and s.sokong_fedaral == :yes,
+      where: ^filter(filters),
       select: count(s.id)
     )
 
     fedaral_female_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_fedaral == :yes,
+      where: ^filter(filters),
       select: count(s.id)
     )
     [fedaral_male_no,fedaral_female_no, fedaral_male_yes, fedaral_female_yes]
 
   end
 
-  def get_negeri_values() do
+  def get_negeri_values(filters \\ %{}) do
     negeri_male_no = Repo.one(
       from s in Survey,
       where: s.gender in ["male", "Male"] and s.sokong_negeri == :no,
+      where: ^filter(filters),
       select: count(s.id)
     )
     negeri_female_no = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_negeri == :no,
+      where: ^filter(filters),
       select: count(s.id)
     )
     negeri_male_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["male", "Male"] and s.sokong_negeri == :yes,
+      where: ^filter(filters),
       select: count(s.id)
     )
 
     negeri_female_yes = Repo.one(
       from s in Survey,
       where: s.gender in ["female", "Female"] and s.sokong_negeri == :yes,
+      where: ^filter(filters),
       select: count(s.id)
     )
     [negeri_male_no,negeri_female_no, negeri_male_yes, negeri_female_yes]
 
   end
+
+  def filter(filters) do
+    filters
+    |> Enum.reduce(
+         dynamic(true),
+         fn
+           {_, ""}, dynamic ->
+             dynamic
+
+           {_, [""]}, dynamic ->
+             dynamic
+
+           {_, []}, dynamic ->
+             dynamic
+
+           {"area", value}, dynamic ->
+             dynamic([s], ^dynamic and s.area == ^value)
+
+           _, dynamic ->
+             dynamic
+         end
+       )
+  end
+
 end

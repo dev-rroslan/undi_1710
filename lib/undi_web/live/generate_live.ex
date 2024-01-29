@@ -7,6 +7,7 @@ defmodule UndiWeb.GenerateLive do
   @impl true
   def render(assigns) do
     ~H"""
+
     <.header>
       Token untuk login survey
       <:subtitle>Taip nombor MyKad, copy dan paste di kotak login ke survey</:subtitle>
