@@ -207,7 +207,7 @@ defmodule UndiWeb.SurveyLive do
   end
 
   defp is_even_or_odd(number) do
-    if rem(number, 2) == 0 do
+    if number != 0 && rem(number, 2) == 0 do
       # even
       "Female"
     else
