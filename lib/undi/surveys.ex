@@ -267,7 +267,7 @@ defmodule Undi.Surveys do
       where: ^filter(filters),
       select: count(s.id)
     )
-    [fedaral_male_no,fedaral_female_no, fedaral_male_yes, fedaral_female_yes]
+    [fedaral_male_no, fedaral_female_no, fedaral_male_yes, fedaral_female_yes]
 
   end
 
@@ -297,7 +297,7 @@ defmodule Undi.Surveys do
       where: ^filter(filters),
       select: count(s.id)
     )
-    [negeri_male_no,negeri_female_no, negeri_male_yes, negeri_female_yes]
+    [negeri_male_no, negeri_female_no, negeri_male_yes, negeri_female_yes]
 
   end
 
@@ -316,12 +316,29 @@ defmodule Undi.Surveys do
              dynamic
 
            {"area", value}, dynamic ->
-             dynamic([s], ^dynamic and s.area == ^value)
+             search_on_area(value, dynamic)
 
            _, dynamic ->
              dynamic
          end
        )
+  end
+  def search_on_area(key, dynamic) do
+    if key && key != "" do
+      key_ =
+        key
+        |> String.downcase()
+        |> String.trim()
+
+      key = "%#{key_}%"
+
+      dynamic(
+        [e],
+        ^dynamic and ilike(e.area, ^key)
+      )
+    else
+      dynamic
+    end
   end
 
 end
