@@ -1,7 +1,7 @@
 import Config
 
 config :undi, Undi.Mailer,
-  adapter: Resend.Swoosh.Adapter
+  adapter: Resend.Swoosh.Adapter,
   api_key: System.fetch_env!("RESEND_API_KEY")
 
 #config :undi, Undi.Mailer,
